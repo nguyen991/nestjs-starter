@@ -4,6 +4,7 @@
   },
   "cSpell.words": [
     "Fastify",
-    "nestjs"
+    "nestjs",
+    "typegoose"
   ]
 }

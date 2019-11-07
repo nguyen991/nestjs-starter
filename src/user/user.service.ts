@@ -1,8 +1,8 @@
-import { Injectable, Logger } from '@nestjs/common';
+import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from './models/user.model';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { CreateUserDto } from './dto/user.dto';
+import { CreateUserDto, FindAllQuery } from './dto/user.dto';
 
 @Injectable()
 export class UserService {
@@ -13,7 +13,19 @@ export class UserService {
     return await createdUser.save();
   }
 
-  async findALl(): Promise<User[] | null> {
-    return await this.userModel.find().exec();
+  async findAll(query: FindAllQuery): Promise<User[] | null> {
+    return await this.userModel
+      .find()
+      .limit(query.limit)
+      .skip(query.skip)
+      .exec();
+  }
+
+  async find(id: string) {
+    return await this.userModel.findById(id);
+  }
+
+  async findByUsername(username: string) {
+    return await this.userModel.findOne({ username });
   }
 }
