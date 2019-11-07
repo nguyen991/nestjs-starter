@@ -1,17 +1,29 @@
-import { Injectable, HttpException, HttpStatus } from '@nestjs/common';
-import { UserService } from 'src/user/user.service';
+import { Injectable } from '@nestjs/common';
+import { JwtService } from '@nestjs/jwt';
 import { ValidateUserDto } from './dto/auth.dto';
+import { UserService } from 'src/user/user.service';
+import { User } from 'src/user/models/user.model';
 
 @Injectable()
 export class AuthService {
-  constructor(private readonly userService: UserService) {}
+  constructor(
+    private readonly userService: UserService,
+    private readonly jwtService: JwtService,
+  ) {}
 
   async validateUser({ username, password }: ValidateUserDto) {
     const user = await this.userService.findByUsername(username);
     if (user && user.password === password) {
-      delete user.password;
-      return user;
+      const { password: pass, ...result } = user.toObject();
+      return result;
     }
     return null;
+  }
+
+  async login(user: User) {
+    const payload = { _id: user._id, username: user.username };
+    return {
+      access_token: this.jwtService.sign(payload),
+    };
   }
 }

@@ -17,7 +17,7 @@ export class LoggingInterceptor implements NestInterceptor {
     const request: Request = http.getRequest().req || http.getRequest();
 
     Logger.log(
-      `${request.url} ${body ? JSON.stringify(body) : ''} - ${request.ip}:${
+      `${request.url} <- ${body ? JSON.stringify(body) : ''} - ${request.ip}:${
         request.headers['user-agent']
       }`,
       request.method,
@@ -28,7 +28,10 @@ export class LoggingInterceptor implements NestInterceptor {
       .handle()
       .pipe(
         tap(data =>
-          Logger.log(`res -> ${JSON.stringify(data)}`, request.method),
+          Logger.log(
+            `${request.url} -> ${JSON.stringify(data)}`,
+            request.method,
+          ),
         ),
       );
   }

@@ -4,6 +4,8 @@
   },
   "cSpell.words": [
     "Fastify",
+    "maxlength",
+    "minlength",
     "nestjs",
     "typegoose"
   ]

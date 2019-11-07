@@ -17,4 +17,8 @@ export class ConfigService {
   get mongoDB(): string {
     return this.envConfig.MONGO_DB;
   }
+
+  get jwtSecret(): string {
+    return this.envConfig.JWT_SECRET;
+  }
 }

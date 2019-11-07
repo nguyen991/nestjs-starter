@@ -1,7 +1,9 @@
-import { prop } from '@typegoose/typegoose';
+import { prop, DocumentType } from '@typegoose/typegoose';
 import { ApiModelProperty } from '@nestjs/swagger';
 
 export class User {
+  _id: string;
+
   @prop({
     required: true,
     minlength: 5,
