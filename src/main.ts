@@ -17,14 +17,16 @@ async function bootstrap() {
     { cors: true },
   );
 
+  // set limit rate
   app.register(fastifyRateLimit, { timeWindow: 60 * 1000, max: 100 });
+
+  // other global
   app.use(helmet());
   app.useGlobalPipes(new ValidationPipe({ transform: true, whitelist: true }));
   app.useGlobalInterceptors(new LoggingInterceptor());
 
   // swagger setup
   const options = new DocumentBuilder().addBearerAuth().build();
-
   const document = SwaggerModule.createDocument(app, options);
   SwaggerModule.setup('api', app, document);
 

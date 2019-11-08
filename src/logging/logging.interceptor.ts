@@ -13,9 +13,13 @@ import { Request } from 'express';
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const http = context.switchToHttp();
-    const body = http.getRequest().body;
-    const request: Request = http.getRequest().req || http.getRequest();
+    const req = http.getRequest();
+    if (!req) {
+      return next.handle();
+    }
 
+    const { body } = req;
+    const request: Request = req.req || req;
     Logger.log(
       `${request.url} <- ${body ? JSON.stringify(body) : ''} - ${request.ip}:${
         request.headers['user-agent']
@@ -23,7 +27,6 @@ export class LoggingInterceptor implements NestInterceptor {
       request.method,
       false,
     );
-
     return next
       .handle()
       .pipe(
