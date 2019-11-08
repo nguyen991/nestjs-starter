@@ -1,7 +1,8 @@
 {
   "[typescript]": {
-    "editor.formatOnSave": true
+    "editor.formatOnSave": true,
   },
+  "typescript.preferences.importModuleSpecifier": "relative",
   "cSpell.words": [
     "Fastify",
     "maxlength",
