@@ -23,4 +23,13 @@ export class User {
   @prop({ required: true, min: 0 })
   @ApiModelProperty()
   age: number;
+
+  getReqUserPayload(): IReqUser {
+    return { _id: this._id, username: this.username };
+  }
+}
+
+export interface IReqUser {
+  readonly _id: string;
+  readonly username: string;
 }

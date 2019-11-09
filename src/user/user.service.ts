@@ -2,7 +2,8 @@ import { Injectable } from '@nestjs/common';
 import { InjectModel } from 'nestjs-typegoose';
 import { User } from './models/user.model';
 import { ReturnModelType } from '@typegoose/typegoose';
-import { CreateUserDto, FindAllQuery } from './dto/user.dto';
+import { CreateUserDto } from './dto/create-user.dto';
+import { FindAllQuery } from './dto/find-all.dto';
 
 @Injectable()
 export class UserService {

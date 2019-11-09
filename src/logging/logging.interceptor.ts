@@ -8,33 +8,33 @@ import {
 import { Observable } from 'rxjs';
 import { tap } from 'rxjs/operators';
 import { Request } from 'express';
+import { GqlExecutionContext } from '@nestjs/graphql';
 
 @Injectable()
 export class LoggingInterceptor implements NestInterceptor {
   intercept(context: ExecutionContext, next: CallHandler): Observable<any> {
     const http = context.switchToHttp();
-    const req = http.getRequest();
-    if (!req) {
+    const request =
+      http.getRequest() || GqlExecutionContext.create(context).getContext();
+
+    if (!request) {
       return next.handle();
     }
 
-    const { body } = req;
-    const request: Request = req.req || req;
+    const { body } = request;
+    const req: Request = request.req || request;
     Logger.log(
-      `${request.url} <- ${body ? JSON.stringify(body) : ''} - ${request.ip}:${
-        request.headers['user-agent']
+      `${req.url} <- ${body ? JSON.stringify(body) : ''} - ${req.ip}:${
+        req.headers['user-agent']
       }`,
-      request.method,
+      req.method,
       false,
     );
     return next
       .handle()
       .pipe(
         tap(data =>
-          Logger.log(
-            `${request.url} -> ${JSON.stringify(data)}`,
-            request.method,
-          ),
+          Logger.log(`${req.url} -> ${JSON.stringify(data)}`, req.method),
         ),
       );
   }

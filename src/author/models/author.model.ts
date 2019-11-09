@@ -4,6 +4,7 @@ import { ObjectType, Field } from 'type-graphql';
 @ObjectType()
 @modelOptions({ schemaOptions: { timestamps: true } })
 export class Author {
+  @Field({ nullable: true })
   _id?: string;
 
   @prop()

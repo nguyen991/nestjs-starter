@@ -19,10 +19,11 @@ import { AuthorModule } from './author/author.module';
       inject: [ConfigService],
     }),
     AuthModule,
-    UserModule,
     GraphQLModule.forRoot({
       autoSchemaFile: 'schema.gql',
+      context: ({ req, body }) => ({ req, body }),
     }),
+    UserModule,
     AuthorModule,
   ],
 })
