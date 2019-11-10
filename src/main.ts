@@ -8,7 +8,7 @@ import {
 import { SwaggerModule, DocumentBuilder } from '@nestjs/swagger';
 import { ValidationPipe } from '@nestjs/common';
 import { AppModule } from './app.module';
-import { LoggingInterceptor } from './logging/logging.interceptor';
+import { LoggingInterceptor } from './logging';
 
 async function bootstrap() {
   const app = await NestFactory.create<NestFastifyApplication>(

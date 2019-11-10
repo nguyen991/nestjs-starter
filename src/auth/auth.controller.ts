@@ -4,7 +4,7 @@ import { Request } from 'express';
 import { ApiUseTags } from '@nestjs/swagger';
 import { ValidateUserDto } from './dto/auth.dto';
 import { AuthService } from './auth.service';
-import { User } from '../user/models/user.model';
+import { User } from '../user';
 
 @ApiUseTags('auth')
 @Controller('auth')

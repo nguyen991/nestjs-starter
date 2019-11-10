@@ -8,14 +8,12 @@ import {
   UseGuards,
   Logger,
 } from '@nestjs/common';
-import { UserService } from './user.service';
-import { FindUserParam } from './dto/find-user.dto';
-import { User, IReqUser } from './models/user.model';
 import { ApiUseTags, ApiCreatedResponse, ApiBearerAuth } from '@nestjs/swagger';
 import { AuthGuard } from '@nestjs/passport';
-import { ReqUser } from '../decorator/req-user.decorator';
-import { CreateUserDto } from './dto/create-user.dto';
-import { FindAllQuery } from './dto/find-all.dto';
+import { UserService } from './user.service';
+import { FindUserParam, CreateUserDto, FindAllQuery } from './dto';
+import { User } from './models/user.model';
+import { ReqUser } from '../decorator';
 
 @UseGuards(AuthGuard('jwt'))
 @ApiUseTags('user')
@@ -34,7 +32,7 @@ export class UserController {
   @ApiCreatedResponse({ type: [User] })
   async findAll(
     @Query() query: FindAllQuery,
-    @ReqUser() user: IReqUser,
+    @ReqUser() user: User,
   ): Promise<User[]> {
     Logger.log(`Request user ${user}`);
     return await this.userService.findAll(query);

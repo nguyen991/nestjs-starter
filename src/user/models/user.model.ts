@@ -1,6 +1,8 @@
-import { prop } from '@typegoose/typegoose';
+import { prop, modelOptions } from '@typegoose/typegoose';
 import { ApiModelProperty } from '@nestjs/swagger';
+import { Exclude } from 'class-transformer';
 
+@modelOptions({ schemaOptions: { timestamps: true } })
 export class User {
   @ApiModelProperty()
   _id?: string;
@@ -24,12 +26,17 @@ export class User {
   @ApiModelProperty()
   age: number;
 
-  getReqUserPayload(): IReqUser {
+  @Exclude()
+  __v?: number;
+
+  constructor(payload?: any) {
+    // assign data from jwt payload
+    if (payload) {
+      Object.assign(this, payload);
+    }
+  }
+
+  getPayload() {
     return { _id: this._id, username: this.username };
   }
-}
-
-export interface IReqUser {
-  readonly _id: string;
-  readonly username: string;
 }

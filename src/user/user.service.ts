@@ -27,6 +27,8 @@ export class UserService {
   }
 
   async findByUsername(username: string) {
+    const count = await this.userModel.countDocuments();
+    console.log(count);
     return await this.userModel.findOne({ username });
   }
 }
